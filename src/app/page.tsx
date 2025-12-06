@@ -1,65 +1,101 @@
-import Image from "next/image";
+// File: src/app/page.tsx
+"use client";
+
+import { useState } from "react";
+import BusinessInputForm from "@/components/BusinessInputForm";
+import StrategyResults from "@/components/StrategyResults";
+import { Store, TrendingUp } from "lucide-react";
 
 export default function Home() {
+  // State Management
+  const [result, setResult] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string>("");
+
+  // --- 3. FRONTEND INTEGRATION LOGIC ---
+  const handleGenerateStrategy = async (data: { businessType: string; productDesc: string; audience: string }) => {
+    setLoading(true);
+    setError("");
+    setResult(""); // Bersihkan hasil sebelumnya
+
+    try {
+      // Mempersiapkan payload sesuai ekspektasi API Route
+      const payload = {
+        businessType: data.businessType,
+        product: data.productDesc, // Mapping dari productDesc ke product
+        audience: data.audience,
+      };
+
+      // Call API Route
+      const response = await fetch("/api/generate", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      const json = await response.json();
+
+      if (!response.ok) {
+        throw new Error(json.error || "Terjadi kesalahan saat menghubungi server.");
+      }
+
+      // Update state dengan hasil dari AI
+      setResult(json.result);
+      
+    } catch (err) {
+      console.error(err);
+      setError("Maaf, terjadi kendala saat meracik strategi. Coba lagi ya!");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
+    <main className="min-h-screen bg-slate-50 font-sans text-slate-900 pb-20">
+      
+      {/* Header Section */}
+      <div className="bg-blue-700 text-white pt-12 pb-24 px-4 shadow-sm">
+        <div className="max-w-3xl mx-auto text-center">
+          <div className="inline-flex items-center justify-center p-3 bg-white/10 rounded-full backdrop-blur-sm mb-4 border border-white/20">
+            <TrendingUp className="w-8 h-8 text-yellow-300" />
+          </div>
+          <h1 className="text-3xl md:text-5xl font-extrabold mb-4 tracking-tight">
+            LocalBiz AI
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+          <p className="text-blue-100 text-lg md:text-xl max-w-xl mx-auto">
+            Konsultan bisnis pribadi untuk UMKM. Dapatkan strategi marketing, harga, dan konten instan berbasis AI.
           </p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+      </div>
+
+      {/* Main Container */}
+      <div className="max-w-3xl mx-auto px-4 -mt-16 relative z-10 space-y-8">
+        
+        {/* Component 1: Input Form */}
+        <BusinessInputForm 
+          onSubmit={handleGenerateStrategy} 
+          loading={loading} 
+        />
+
+        {/* Error Message Display */}
+        {error && (
+          <div className="bg-red-50 border border-red-200 text-red-700 p-4 rounded-lg text-center animate-in fade-in">
+            {error}
+          </div>
+        )}
+
+        {/* Component 2: Results Display */}
+        {/* Hanya muncul jika ada hasil */}
+        {result && <StrategyResults content={result} />}
+
+      </div>
+      
+      {/* Footer Simple */}
+      <footer className="mt-20 text-center text-slate-400 text-sm py-6">
+        &copy; {new Date().getFullYear()} LocalBiz AI - Inovasi untuk UMKM Indonesia
+      </footer>
+    </main>
   );
 }
