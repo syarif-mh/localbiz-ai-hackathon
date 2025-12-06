@@ -1,14 +1,14 @@
 // src/app/api/generate/route.ts
 
-import { GoogleGenerativeAI } from "@google/generative-ai";
+import { GoogleGenerativeAI, SchemaType } from "@google/generative-ai";
 import { NextResponse } from "next/server";
 
 // 1. Definisikan Schema Output untuk Memaksa Gemini Mengembalikan JSON
 const responseSchema = {
-    type: "object",
+    type: SchemaType.OBJECT,
     properties: {
         strategy_text: {
-            type: "string",
+            type: SchemaType.STRING,
             description: "Strategi komprehensif UMKM yang sudah diformat rapi dalam Markdown.",
         },
     },
