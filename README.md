@@ -51,11 +51,9 @@ LocalBiz AI bertindak sebagai "Konsultan Bisnis Digital" instan. Hanya dengan me
 
 ## 📸 Screenshots
 
-*(Disarankan: Tambahkan screenshot aplikasi kamu di sini agar README lebih menarik)*
-
 | Halaman Utama |
 |:---:|
-| ![Home](https://placehold.co/300x600?text=Screenshot+Home) |
+| ![Home](https://raw.githubusercontent.com/syarif-mh/localbiz-ai-hackathon/refs/heads/main/images/LocalBiz-AI.png) |
 
 ---
 
