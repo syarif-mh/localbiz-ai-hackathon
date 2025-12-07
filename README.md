@@ -55,7 +55,7 @@ LocalBiz AI bertindak sebagai "Konsultan Bisnis Digital" instan. Hanya dengan me
 
 | Halaman Utama | Form Input | Hasil Strategi |
 |:---:|:---:|:---:|
-| ![Home](https://placehold.co/300x600?text=Screenshot+Home) | ![Form](https://placehold.co/300x600?text=Screenshot+Input) | ![Result](https://placehold.co/300x600?text=Screenshot+Result) |
+| ![Home](https://placehold.co/300x600?text=Screenshot+Home) |
 
 ---
 
