@@ -53,8 +53,8 @@ LocalBiz AI bertindak sebagai "Konsultan Bisnis Digital" instan. Hanya dengan me
 
 *(Disarankan: Tambahkan screenshot aplikasi kamu di sini agar README lebih menarik)*
 
-| Halaman Utama | Form Input | Hasil Strategi |
-|:---:|:---:|:---:|
+| Halaman Utama |
+|:---:|
 | ![Home](https://placehold.co/300x600?text=Screenshot+Home) |
 
 ---
